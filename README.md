@@ -12,3 +12,6 @@ yaml of deployments to know what paths and ports to find probe data.
 Start with the topology POC from: https://www.youtube.com/watch?v=feBYxeO-3cY
 
 Written in Rust and persisting to sqlite.
+
+
+q: Is there anything that can be done w/ Protocell metaphor?
