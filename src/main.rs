@@ -82,23 +82,21 @@ async fn main() -> anyhow::Result<()> {
     let obs = watcher(nodes, watcher::Config::default()).applied_objects();
     pin_mut!(obs);
     while let Some(o) = obs.try_next().await? {
-        info!("watch saw {:?}", o);
-        match o {
-            Node => {
-                info!("watch matched Node");
-                let nodes: Api<Node> = Api::all(client.clone());
-                let spec = create_spec(nodes.clone()).await;
-                let topologys: Api<Topology> = Api::default_namespaced(client.clone());
+        info!(
+            "watch saw node {:?} with status {:?}",
+            o.metadata.name, o.status
+        );
+        let nodes: Api<Node> = Api::all(client.clone());
+        let spec = create_spec(nodes.clone()).await;
+        let topologys: Api<Topology> = Api::default_namespaced(client.clone());
 
-                let tt = topologys
-                    .patch(
-                        "default",
-                        &ssapply,
-                        &Patch::Apply(&Topology::new("default", spec)),
-                    )
-                    .await?;
-            }
-        }
+        let tt = topologys
+            .patch(
+                "default",
+                &ssapply,
+                &Patch::Apply(&Topology::new("default", spec)),
+            )
+            .await?;
     }
 
     Ok(())
