@@ -67,7 +67,7 @@ async fn main() -> anyhow::Result<()> {
     // New client copy to inject our resource
     let topologys: Api<Topology> = Api::default_namespaced(client.clone());
 
-    let spec = create_spec(nodes).await;
+    let spec = create_spec(nodes.clone()).await;
 
     let tt = topologys
         .patch(
@@ -79,8 +79,7 @@ async fn main() -> anyhow::Result<()> {
 
     info!("Applied 1 {}: {:?}", tt.name_any(), tt.spec);
 
-    // watch the topology resources
-    let obs = watcher(topologys, watcher::Config::default()).applied_objects();
+    let obs = watcher(nodes, watcher::Config::default()).applied_objects();
     pin_mut!(obs);
     while let Some(o) = obs.try_next().await? {
         info!("watch saw {:?}", o);
