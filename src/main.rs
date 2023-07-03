@@ -20,12 +20,7 @@ use kube::{
 
 // TopologyCRD
 #[derive(CustomResource, Deserialize, Serialize, Clone, Debug, JsonSchema)]
-#[kube(
-    group = "cnskunkworks.dev",
-    version = "v1",
-    kind = "Topology",
-    namespaced
-)]
+#[kube(group = "navicore.tech", version = "v1", kind = "Topology", namespaced)]
 #[kube(status = "TopologyStatus")]
 #[kube(scale = r#"{"specReplicasPath":".spec.replicas", "statusReplicasPath":".status.replicas"}"#)]
 struct TopologySpec {
@@ -38,11 +33,12 @@ struct TopologyStatus {
     pub is_bad: bool,
 }
 
-const CRD_NAME: &str = "topologies.cnskunkworks.dev";
+const CRD_NAME: &str = "topologies.navicore.tech";
 
 #[tokio::main]
 async fn main() -> anyhow::Result<()> {
     tracing_subscriber::fmt::init();
+    // looks for a local kubeconfig first then tries ENV VARS
     let client = Client::try_default().await?;
 
     // Get the nodes current topology
