@@ -51,12 +51,12 @@ async fn main() -> anyhow::Result<()> {
     // 0. Ensure the CRD is installed, could do this once
     let crd_client: Api<CustomResourceDefinition> = Api::all(client.clone());
 
-    info!("Creating crd: {}", serde_yaml::to_string(&Topology::crd())?);
+    debug!("Creating crd: {}", serde_yaml::to_string(&Topology::crd())?);
     crd_client
         .patch(CRD_NAME, &ssapply, &Patch::Apply(Topology::crd()))
         .await?;
-    //
-    info!("Waiting for the api-server to accept the CRD");
+
+    debug!("Waiting for the api-server to accept the CRD");
 
     let establish = await_condition(crd_client, CRD_NAME, conditions::is_crd_established());
     let _ = tokio::time::timeout(std::time::Duration::from_secs(10), establish).await?;
@@ -82,15 +82,12 @@ async fn main() -> anyhow::Result<()> {
     let obs = watcher(nodes, watcher::Config::default()).applied_objects();
     pin_mut!(obs);
     while let Some(o) = obs.try_next().await? {
-        info!(
-            "watch saw node {:?} with status {:?}",
-            o.metadata.name, o.status
-        );
+        debug!("watch saw node {:?} event", o.metadata.name);
         let nodes: Api<Node> = Api::all(client.clone());
         let spec = create_spec(nodes.clone()).await;
         let topologys: Api<Topology> = Api::default_namespaced(client.clone());
 
-        let tt = topologys
+        topologys
             .patch(
                 "default",
                 &ssapply,
