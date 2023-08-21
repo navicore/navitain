@@ -17,7 +17,7 @@ futures = "0.3.28"
 anyhow = "1.0.72"
 log = "0.4.20"
 tracing = "0.1.37"
-thiserror = "1.0.44"
+thiserror = "1.0.47"
 schemars = "0.8.12"
 tracing-subscriber = "0.3.17"
 serde = { version = "1.0.183", features = ["derive"] }
