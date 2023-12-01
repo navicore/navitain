@@ -1,5 +1,5 @@
 # Stage 1: Building
-FROM rust:1.73 as builder
+FROM rust:1.74 as builder
 
 # Create a new empty shell project
 RUN USER=root cargo new --bin navitain
