@@ -3,7 +3,7 @@ Navitain
 
 WIP UNDER CONSTRUCTION
 
-Goal: a Kubernetes Operator that inpsects readiness and liveliness probes of
+Goal: a Kubernetes Operator that inspects readiness and liveliness probes of
 all pods in a cluster and can respond to queries with suggestions / predictions.
 
 It is interested in /activation/prometheus style info as well as reading the 
