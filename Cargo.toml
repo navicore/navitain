@@ -20,6 +20,6 @@ tracing = "0.1.40"
 thiserror = "1.0.60"
 schemars = "0.8.19"
 tracing-subscriber = "0.3.18"
-serde = { version = "1.0.201", features = ["derive"] }
+serde = { version = "1.0.202", features = ["derive"] }
 serde_json = "1.0.117"
 serde_yaml = "0.9.34"
