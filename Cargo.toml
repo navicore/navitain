@@ -14,7 +14,7 @@ clap = { version = "4.5", features = ["derive"] }
 tokio = { version = "1.41.0", features = ["macros", "rt-multi-thread", "signal"] }
 backoff = "0.4.0"
 futures = "0.3.31"
-anyhow = "1.0.91"
+anyhow = "1.0.92"
 log = "0.4.22"
 tracing = "0.1.40"
 thiserror = "1.0.65"
